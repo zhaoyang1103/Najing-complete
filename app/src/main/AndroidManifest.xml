@@ -37,7 +37,7 @@
             android:label="@string/app_title" />
 
         <!--主界面-->
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:screenOrientation="landscape">
 
         </activity>
     </application>

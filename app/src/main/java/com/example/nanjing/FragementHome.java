@@ -20,6 +20,8 @@ import com.example.nanjing.fragment.Fragment_2;
 import com.example.nanjing.fragment.Fragment_3;
 import com.example.nanjing.fragment.home.HomeAdapter;
 import com.example.nanjing.fragment.home.HomeBean;
+import com.example.nanjing.zy_java.fragment.Design;
+import com.example.nanjing.zy_java.fragment.Viewmain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +43,7 @@ public class FragementHome extends Fragment {
         home_list = new ArrayList<>();
         initView(view);
         setData();
-        if (getActivity().findViewById(R.id.pain).getVisibility() == View.VISIBLE){
+        if (getActivity().findViewById(R.id.pain).getVisibility() == View.VISIBLE) {
             getActivity().findViewById(R.id.pain).setVisibility(View.GONE);
         }
         home_adapter = new HomeAdapter(context, home_list);
@@ -69,12 +71,12 @@ public class FragementHome extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.maincontent, new Fragment_1()).commit();
+                        getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.maincontent, new Viewmain()).commit();
                         tv_title.setText(home_list.get(position).getHome_text());
                         getActivity().findViewById(R.id.pain).setVisibility(View.VISIBLE);
                         break;
                     case 1:
-                        getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.maincontent, new Fragment_2()).commit();
+                        getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.maincontent, new Design()).commit();
                         tv_title.setText(home_list.get(position).getHome_text());
                         getActivity().findViewById(R.id.pain).setVisibility(View.VISIBLE);
                         break;

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="#56abe4"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="64dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/back" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="天气信息"
+            android:textColor="#ffffff"
+            android:textSize="28dp" />
+
+
+        <ImageView
+            android:id="@+id/refresh"
+            android:layout_width="64dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/refresh" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="100dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/icon101" />
+
+            <TextView
+                android:id="@+id/WData"
+                style="@style/TestSt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/image" />
+
+            <TextView
+                android:id="@+id/city"
+                style="@style/TestSt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="50dp"
+                android:text="南京" />
+
+            <TextView
+                android:id="@+id/WCurrent"
+                style="@style/TestSt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/city"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="50dp" />
+
+
+            <TextView
+                android:id="@+id/tv_1"
+                style="@style/TestSt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/WData"
+                android:text="预报" />
+
+            <GridView
+                android:id="@+id/gridView1"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:layout_below="@id/tv_1"
+                android:horizontalSpacing="20dp"
+                android:numColumns="6"></GridView>
+
+            <TextView
+                android:id="@+id/tv_2"
+                style="@style/TestSt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/gridView1"
+                android:text="生活指数" />
+
+            <GridView
+                android:id="@+id/gridView2"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:layout_below="@id/tv_2"
+                android:horizontalSpacing="20dp"
+                android:numColumns="3"
+                android:verticalSpacing="20dp"></GridView>
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -29,6 +29,13 @@ public class ViewLine extends Fragment {
     private ViewPager viewpager;
     private GlideView glideview;
     private List<Fragment> list;
+    private int i;
+
+    public static ViewLine newInstance(Bundle args) {
+        ViewLine fragment = new ViewLine();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Nullable
     @Override
@@ -39,7 +46,13 @@ public class ViewLine extends Fragment {
             Toast.makeText(getContext(), "数据还没加载完成", Toast.LENGTH_SHORT).show();
         }
         initView(view);
-        tx_show.setText("有违章车辆和无违章车辆的占比统计");
+
+        Bundle arguments = getArguments();
+        i = arguments.getInt("i");
+
+        glideview.setIndex(i,getContext());
+        viewpager.setCurrentItem(i);
+
         return view;
     }
 
@@ -73,6 +86,7 @@ public class ViewLine extends Fragment {
                 switch (i) {
                     case 0:
                         tx_show.setText("温度");
+                        viewpager.setCurrentItem(0);
                         break;
                     case 1:
                         tx_show.setText("湿度");

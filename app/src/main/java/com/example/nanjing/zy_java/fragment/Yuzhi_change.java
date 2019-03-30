@@ -73,6 +73,11 @@ public class Yuzhi_change extends Fragment implements View.OnClickListener {
     };
     private Dao dao;
 
+    public static Yuzhi_change newInstance(Bundle args) {
+        Yuzhi_change fragment = new Yuzhi_change();
+        fragment.setArguments(args);
+        return fragment;
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -118,7 +123,9 @@ public class Yuzhi_change extends Fragment implements View.OnClickListener {
         gv_yulist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                getFragmentManager().beginTransaction().addToBackStack(null).add(R.id.maincontent, new ViewLine()).hide(new Yuzhi_change()).commit();
+                Bundle args = new Bundle();
+                args.putInt("i",position);
+                getFragmentManager().beginTransaction().addToBackStack(null).add(R.id.maincontent, ViewLine.newInstance(args)).commit();
             }
         });
         dao = new Dao(context);

@@ -50,5 +50,18 @@ public class Util {
 //        String urlSetting = "http://" + urlHttp+ ":" + urlPort + "/";
         return urlBean;
     }
+    public  static   void saveUSer(String user,Context context)
+    {
+        SharedPreferences sp=context.getSharedPreferences("user",MODE_PRIVATE);
+        SharedPreferences.Editor editor=sp.edit();
+        editor.putString("user",user);
+        editor.commit();
+    }
+    public  static  String getUser(Context context)
+    {
+        SharedPreferences sp=context.getSharedPreferences("user",MODE_PRIVATE);
+
+        return  sp.getString("user","没数据");
+    }
 
 }

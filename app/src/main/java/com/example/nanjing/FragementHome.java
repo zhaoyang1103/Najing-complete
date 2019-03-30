@@ -20,8 +20,12 @@ import com.example.nanjing.fragment.Fragment_2;
 import com.example.nanjing.fragment.Fragment_3;
 import com.example.nanjing.fragment.home.HomeAdapter;
 import com.example.nanjing.fragment.home.HomeBean;
+import com.example.nanjing.st_java.fragment.GRZXFra;
+import com.example.nanjing.st_java.fragment.TQXXFra;
+import com.example.nanjing.ws_java.etc.fragement.ETC_Main;
 import com.example.nanjing.zy_java.fragment.Design;
 import com.example.nanjing.zy_java.fragment.Viewmain;
+import com.example.nanjing.ws_java.subway.Subway_Main;
 import com.example.nanjing.zy_java.fragment.Yuzhi_change;
 
 import java.util.ArrayList;
@@ -54,9 +58,13 @@ public class FragementHome extends Fragment {
     }
 
     private void setData() {
+        home_list.add(new HomeBean(R.drawable.icon_etc, "个人中心"));
+        home_list.add(new HomeBean(R.drawable.icon_busstop, "数据分析"));
+        home_list.add(new HomeBean(R.drawable.icon_light, "天气信息"));
+        home_list.add(new HomeBean(R.drawable.icon_busstop, "环境指标"));
         home_list.add(new HomeBean(R.drawable.icon_etc, "高速ETC"));
-        home_list.add(new HomeBean(R.drawable.icon_busstop, "定制班车"));
-        home_list.add(new HomeBean(R.drawable.icon_light, "环境指标"));
+        home_list.add(new HomeBean(R.drawable.icon_light, "地铁查询"));
+        home_list.add(new HomeBean(R.drawable.icon_busstop, "创意设计"));
     }
 
     @Override
@@ -72,17 +80,37 @@ public class FragementHome extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.maincontent, new Viewmain()).commit();
+                        getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.maincontent, new GRZXFra()).commit();
                         tv_title.setText(home_list.get(position).getHome_text());
                         getActivity().findViewById(R.id.pain).setVisibility(View.VISIBLE);
                         break;
                     case 1:
-                        getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.maincontent, new Design()).commit();
+                        getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.maincontent, new Viewmain()).commit();
                         tv_title.setText(home_list.get(position).getHome_text());
                         getActivity().findViewById(R.id.pain).setVisibility(View.VISIBLE);
                         break;
                     case 2:
+                        getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.maincontent, new TQXXFra()).commit();
+                        tv_title.setText(home_list.get(position).getHome_text());
+                        getActivity().findViewById(R.id.pain).setVisibility(View.GONE);
+                        break;
+                    case 3:
                         getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.maincontent, new Yuzhi_change()).commit();
+                        tv_title.setText(home_list.get(position).getHome_text());
+                        getActivity().findViewById(R.id.pain).setVisibility(View.GONE);
+                        break;
+                    case 4:
+                        getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.maincontent, new ETC_Main()).commit();
+                        tv_title.setText(home_list.get(position).getHome_text());
+                        getActivity().findViewById(R.id.pain).setVisibility(View.VISIBLE);
+                        break;
+                    case 5:
+                        getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.maincontent, new Subway_Main()).commit();
+                        tv_title.setText(home_list.get(position).getHome_text());
+                        getActivity().findViewById(R.id.pain).setVisibility(View.VISIBLE);
+                        break;
+                    case 6:
+                        getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.maincontent, new Design()).commit();
                         tv_title.setText(home_list.get(position).getHome_text());
                         getActivity().findViewById(R.id.pain).setVisibility(View.VISIBLE);
                         break;

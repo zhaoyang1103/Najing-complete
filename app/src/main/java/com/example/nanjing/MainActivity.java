@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.nanjing.zy_java.data.CarData;
+
 public class MainActivity extends AppCompatActivity {
 
     private ImageView imageView_Back;
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        new CarData(MainActivity.this);
         imageView_Back = (ImageView) findViewById(R.id.imageView_Back);
         tv_title = (TextView) findViewById(R.id.tv_title);
         pain = (LinearLayout) findViewById(R.id.pain);

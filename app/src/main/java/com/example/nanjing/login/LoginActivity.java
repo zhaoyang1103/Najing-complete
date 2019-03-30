@@ -104,6 +104,7 @@ public class LoginActivity extends Activity  {
 						Log.d("TAG", response.toString());
 						LoadingDialog.disDialog();
 						if ( response.optString("RESULT").equals("S")){
+							Util.saveUSer(userName,LoginActivity.this);
 							Toast.makeText(getApplicationContext(), response.optString("ERRMSG"), Toast.LENGTH_LONG).show();
 							Intent intent = new Intent(LoginActivity.this,	MainActivity.class);
 							startActivity(intent);

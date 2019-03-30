@@ -46,17 +46,20 @@ public class ChartManage {
         left = barChart.getAxisLeft();
         right = barChart.getAxisRight();
         barChart.setDescription("");
-
+        right.setEnabled(false);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
 
     }
 
     public ChartManage(HorizontalBarChart horizontalBarChart) {
         this.horizontalBarChart = horizontalBarChart;
-        xAxis = barChart.getXAxis();
-        left = barChart.getAxisLeft();
-        right = barChart.getAxisRight();
+        xAxis = horizontalBarChart.getXAxis();
+        left = horizontalBarChart.getAxisLeft();
+        right = horizontalBarChart.getAxisRight();
         horizontalBarChart.setDescription("");
         left.setEnabled(false);
+        horizontalBarChart.getLegend().setEnabled(false);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
 
@@ -84,14 +87,46 @@ public class ChartManage {
         }
         BarDataSet barDataSet = new BarDataSet(entries, "");
         BarData barData = new BarData(x, barDataSet);
-        int[] colors = new int[]{Color.BLUE, Color.BLUE, Color.RED};
+        int[] colors = new int[]{Color.GREEN, Color.BLUE, Color.RED};
         barDataSet.setColors(colors);
         horizontalBarChart.setData(barData);
         barDataSet.setBarSpacePercent(50);
         barDataSet.setValueFormatter(new PercentFormatter(new DecimalFormat("###,###,##0.0")));
         horizontalBarChart.invalidate();
+    }
 
+    public void showDoubleBarChart(ArrayList<String> x, ArrayList<float[]> y) {
+        ArrayList<BarEntry> entries = new ArrayList<>();
+        for (int i = 0; i < y.size(); i++) {
+            entries.add(new BarEntry(y.get(i), i));
+        }
+        barChart.getLegend().setPosition(Legend.LegendPosition.RIGHT_OF_CHART);
+        BarDataSet barDataSet = new BarDataSet(entries, "");
+        BarData barData = new BarData(x, barDataSet);
+        int[] colors = new int[]{Color.GREEN, Color.parseColor("#ee6e55")};
+        barDataSet.setColors(colors);
+        barChart.getLegend().setEnabled(true);
+        barDataSet.setStackLabels(new String[]{"无违章", "有违章"});
+        barChart.setData(barData);
+        barDataSet.setBarSpacePercent(50);
+        barDataSet.setValueFormatter(new PercentFormatter(new DecimalFormat("###,###,##0.0")));
+        barChart.invalidate();
+    }
 
+    public void showBarChart(ArrayList<String> x, ArrayList<Float> y) {
+        ArrayList<BarEntry> entries = new ArrayList<>();
+        for (int i = 0; i < y.size(); i++) {
+            entries.add(new BarEntry(y.get(i), i));
+        }
+        BarDataSet barDataSet = new BarDataSet(entries, "");
+        BarData barData = new BarData(x, barDataSet);
+        int[] colors = new int[]{Color.GREEN, Color.BLUE, Color.RED};
+        barChart.getLegend().setEnabled(false);
+        barDataSet.setColors(colors);
+        barChart.setData(barData);
+        barDataSet.setBarSpacePercent(50);
+        barDataSet.setValueFormatter(new PercentFormatter(new DecimalFormat("###,###,##0.0")));
+        barChart.invalidate();
     }
 
 }

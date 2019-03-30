@@ -22,6 +22,7 @@ import com.example.nanjing.fragment.home.HomeAdapter;
 import com.example.nanjing.fragment.home.HomeBean;
 import com.example.nanjing.zy_java.fragment.Design;
 import com.example.nanjing.zy_java.fragment.Viewmain;
+import com.example.nanjing.zy_java.fragment.Yuzhi_change;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +82,7 @@ public class FragementHome extends Fragment {
                         getActivity().findViewById(R.id.pain).setVisibility(View.VISIBLE);
                         break;
                     case 2:
-                        getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.maincontent, new Fragment_3()).commit();
+                        getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.maincontent, new Yuzhi_change()).commit();
                         tv_title.setText(home_list.get(position).getHome_text());
                         getActivity().findViewById(R.id.pain).setVisibility(View.VISIBLE);
                         break;

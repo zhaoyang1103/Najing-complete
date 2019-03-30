@@ -58,9 +58,9 @@ public class FragementHome extends Fragment {
     }
 
     private void setData() {
-        home_list.add(new HomeBean(R.drawable.icon_etc, "个人中心"));
+        home_list.add(new HomeBean(R.drawable.touxiang_2, "个人中心"));
         home_list.add(new HomeBean(R.drawable.icon_busstop, "数据分析"));
-        home_list.add(new HomeBean(R.drawable.icon_light, "天气信息"));
+        home_list.add(new HomeBean(R.drawable.icon101, "天气信息"));
         home_list.add(new HomeBean(R.drawable.icon_busstop, "环境指标"));
         home_list.add(new HomeBean(R.drawable.icon_etc, "高速ETC"));
         home_list.add(new HomeBean(R.drawable.icon_light, "地铁查询"));

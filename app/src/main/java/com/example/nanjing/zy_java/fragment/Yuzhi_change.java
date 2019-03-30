@@ -3,6 +3,7 @@ package com.example.nanjing.zy_java.fragment;
  * Created by 王森 on WangSen.
  */
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +33,7 @@ import com.example.nanjing.R;
 import com.example.nanjing.util.Util;
 import com.example.nanjing.zy_java.bean.Gv_bean;
 import com.example.nanjing.zy_java.bean.ThresholdBean;
+import com.example.nanjing.zy_java.util.Threshold;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -40,6 +43,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static android.content.Context.NOTIFICATION_SERVICE;
 
 public class Yuzhi_change extends Fragment implements View.OnClickListener {
 
@@ -76,7 +81,12 @@ public class Yuzhi_change extends Fragment implements View.OnClickListener {
         context = getContext();
         gv_yulist = (GridView) view.findViewById(R.id.gv_yulist);
         imageView_Back = (ImageView) view.findViewById(R.id.imageView_Back);
-        imageView_Back.setOnClickListener(this);
+        imageView_Back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().popBackStack();
+            }
+        });
         tv_title = (TextView) view.findViewById(R.id.tv_title);
         tv_title.setOnClickListener(this);
         yuzhi_set = (TextView) view.findViewById(R.id.yuzhi_set);
@@ -105,9 +115,15 @@ public class Yuzhi_change extends Fragment implements View.OnClickListener {
     }
 
     @Override
-    public void onDestroy() {
+    public void onPause() {
+        super.onPause();
         timer.cancel();
+    }
+
+    @Override
+    public void onDestroy() {
         super.onDestroy();
+        timer.cancel();
     }
 
     private void getIndex() {
@@ -119,11 +135,11 @@ public class Yuzhi_change extends Fragment implements View.OnClickListener {
                 public void onResponse(JSONObject jsonObject) {
                     Gson gson = new Gson();
                     ThresholdBean thresholdBean = gson.fromJson(jsonObject.toString(), ThresholdBean.class);
-                    list.set(0, new Gv_bean("温度", thresholdBean.getTemperature(), 100));
-                    list.set(1, new Gv_bean("湿度", thresholdBean.getHumidity(), 100));
-                    list.set(2, new Gv_bean("光照", thresholdBean.getLightIntensity(), 100));
-                    list.set(3, new Gv_bean("CO2", thresholdBean.getCo2(), 100));
-                    list.set(4, new Gv_bean("PM2.5", thresholdBean.get_$Pm2526(), 100));
+                    list.set(0, new Gv_bean("温度", thresholdBean.getTemperature(), Threshold.getYuZhi(context, "wendu")));
+                    list.set(1, new Gv_bean("湿度", thresholdBean.getHumidity(), Threshold.getYuZhi(context, "shidu")));
+                    list.set(2, new Gv_bean("光照", thresholdBean.getLightIntensity(), Threshold.getYuZhi(context, "guangzhao")));
+                    list.set(3, new Gv_bean("CO2", thresholdBean.getCo2(), Threshold.getYuZhi(context, "co2")));
+                    list.set(4, new Gv_bean("PM2.5", thresholdBean.get_$Pm2526(), Threshold.getYuZhi(context, "pm25")));
 
                 }
             }, new Response.ErrorListener() {
@@ -146,7 +162,7 @@ public class Yuzhi_change extends Fragment implements View.OnClickListener {
                 public void onResponse(JSONObject jsonObject) {
                     try {
                         int status = jsonObject.getInt("Status");
-                        list.set(5, new Gv_bean("道路状况", status, 100));
+                        list.set(5, new Gv_bean("道路状况", status, Threshold.getYuZhi(context, "status")));
                         handler.sendEmptyMessage(0);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -198,18 +214,55 @@ public class Yuzhi_change extends Fragment implements View.OnClickListener {
             ViewHolder viewHolder = new ViewHolder(convertView);
             viewHolder.yuzhi_name.setText(list.get(position).getName());
             viewHolder.tx_index.setText(list.get(position).getIndex() + "");
-            if (list.get(position).getIndex() > list.get(position).getThreshold()) {
-                viewHolder.item_back.setBackgroundColor(Color.RED);
+            if (Threshold.getSwitch(context)) {
+                if (list.get(position).getIndex() > list.get(position).getThreshold()) {
+                    viewHolder.item_back.setBackgroundColor(Color.RED);
+                    //发送与之告警
+                    int res = R.drawable.icon101;
+                    switch (position){
+                        case 0:
+                            res = R.drawable.icon101;
+                            break;
+                        case 1:
+                            res = R.drawable.icon102;
+                            break;
+                        case 2:
+                            res = R.drawable.icon103;
+                            break;
+                        case 3:
+                            res = R.drawable.icon104;
+                            break;
+                        case 4:
+                            res = R.drawable.icon105;
+                            break;
+                        case 5:
+                            res = R.drawable.icon_4;
+                            break;
+                    }
+                    showNofitication(res,position, "【" + list.get(position).getName() + "】告警", "当前值 " + list.get(position).getIndex() + "/" + list.get(position).getThreshold() + "(阈值)");
+                } else {
+                    viewHolder.item_back.setBackgroundColor(Color.GREEN);
+                }
             } else {
-                viewHolder.item_back.setBackgroundColor(Color.GREEN);
-
+                viewHolder.item_back.setBackgroundColor(Color.YELLOW);
             }
 
             return convertView;
         }
 
-        public
-        class ViewHolder {
+        public void showNofitication(int res,int id, String title, String content) {
+            NotificationManager manager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+            builder.setContentTitle(title);
+            builder.setContentText(content);
+            builder.setSmallIcon(res);
+            builder.setTicker("阈值告警");
+            builder.setWhen(System.currentTimeMillis());
+            manager.notify(id, builder.build());
+        }
+
+        public class ViewHolder {
             public View rootView;
             public TextView yuzhi_name;
             public TextView tx_index;

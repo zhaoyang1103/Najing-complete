@@ -1,28 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/item_back"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/yuzhi_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="15dp"
         android:text="sdafsd"
-        android:textSize="30dp" />
+        android:textColor="#111"
+        android:textSize="30dp"
+        android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/tx_index"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="100dp"
         android:layout_marginTop="100dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="20dp"
         android:layout_alignParentRight="true"
-        android:background="@drawable/yuanback"
-        android:gravity="center"
-        android:text="sdaf"
-        android:textSize="30dp" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="15dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tx_index"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/yuanback"
+            android:gravity="center"
+            android:text="9999"
+            android:textColor="#111"
+            android:textSize="30dp" />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="15dp" />
+    </LinearLayout>
 </RelativeLayout>

@@ -16,6 +16,7 @@ import android.support.v4.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -33,6 +34,8 @@ import com.example.nanjing.R;
 import com.example.nanjing.util.Util;
 import com.example.nanjing.zy_java.bean.Gv_bean;
 import com.example.nanjing.zy_java.bean.ThresholdBean;
+import com.example.nanjing.zy_java.dao.Dao;
+import com.example.nanjing.zy_java.util.IndexListSave;
 import com.example.nanjing.zy_java.util.Threshold;
 import com.google.gson.Gson;
 
@@ -68,6 +71,7 @@ public class Yuzhi_change extends Fragment implements View.OnClickListener {
             super.handleMessage(msg);
         }
     };
+    private Dao dao;
 
     @Nullable
     @Override
@@ -111,6 +115,13 @@ public class Yuzhi_change extends Fragment implements View.OnClickListener {
                 getIndex();
             }
         }, 0, 3000);
+        gv_yulist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                getFragmentManager().beginTransaction().addToBackStack(null).add(R.id.maincontent, new ViewLine()).hide(new Yuzhi_change()).commit();
+            }
+        });
+        dao = new Dao(context);
 
     }
 
@@ -127,6 +138,7 @@ public class Yuzhi_change extends Fragment implements View.OnClickListener {
     }
 
     private void getIndex() {
+        final ThresholdBean bean = new ThresholdBean();
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("UserName", Util.getUser(context));
@@ -134,12 +146,49 @@ public class Yuzhi_change extends Fragment implements View.OnClickListener {
                 @Override
                 public void onResponse(JSONObject jsonObject) {
                     Gson gson = new Gson();
-                    ThresholdBean thresholdBean = gson.fromJson(jsonObject.toString(), ThresholdBean.class);
+                    final ThresholdBean thresholdBean = gson.fromJson(jsonObject.toString(), ThresholdBean.class);
                     list.set(0, new Gv_bean("温度", thresholdBean.getTemperature(), Threshold.getYuZhi(context, "wendu")));
                     list.set(1, new Gv_bean("湿度", thresholdBean.getHumidity(), Threshold.getYuZhi(context, "shidu")));
                     list.set(2, new Gv_bean("光照", thresholdBean.getLightIntensity(), Threshold.getYuZhi(context, "guangzhao")));
                     list.set(3, new Gv_bean("CO2", thresholdBean.getCo2(), Threshold.getYuZhi(context, "co2")));
                     list.set(4, new Gv_bean("PM2.5", thresholdBean.get_$Pm2526(), Threshold.getYuZhi(context, "pm25")));
+                    JSONObject jsonObject2 = new JSONObject();
+                    try {
+                        jsonObject2.put("UserName", Util.getUser(context));
+                        jsonObject2.put("RoadId", 1);
+                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(JsonObjectRequest.Method.POST, api1, jsonObject2, new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject jsonObject) {
+                                try {
+                                    int status = jsonObject.getInt("Status");
+                                    list.set(5, new Gv_bean("道路状况", status, Threshold.getYuZhi(context, "status")));
+                                    bean.set_$Pm2526(thresholdBean.get_$Pm2526());
+                                    bean.setCo2(thresholdBean.getCo2());
+                                    bean.setTemperature(thresholdBean.getTemperature());
+                                    bean.setHumidity(thresholdBean.getHumidity());
+                                    bean.setLightIntensity(thresholdBean.getLightIntensity());
+                                    bean.setRoad(status);
+                                    dao.addIndex(bean);
+                                    handler.sendEmptyMessage(0);
+
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError volleyError) {
+
+                                Toast.makeText(context, "" + volleyError.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        requestQueue.add(jsonObjectRequest);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
                 }
             }, new Response.ErrorListener() {
@@ -153,34 +202,7 @@ public class Yuzhi_change extends Fragment implements View.OnClickListener {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        JSONObject jsonObject2 = new JSONObject();
-        try {
-            jsonObject2.put("UserName", Util.getUser(context));
-            jsonObject2.put("RoadId", 1);
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(JsonObjectRequest.Method.POST, api1, jsonObject2, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject jsonObject) {
-                    try {
-                        int status = jsonObject.getInt("Status");
-                        list.set(5, new Gv_bean("道路状况", status, Threshold.getYuZhi(context, "status")));
-                        handler.sendEmptyMessage(0);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
 
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError volleyError) {
-
-                    Toast.makeText(context, "" + volleyError.toString(), Toast.LENGTH_SHORT).show();
-                }
-            });
-            requestQueue.add(jsonObjectRequest);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -219,7 +241,7 @@ public class Yuzhi_change extends Fragment implements View.OnClickListener {
                     viewHolder.item_back.setBackgroundColor(Color.RED);
                     //发送与之告警
                     int res = R.drawable.icon101;
-                    switch (position){
+                    switch (position) {
                         case 0:
                             res = R.drawable.icon101;
                             break;
@@ -239,7 +261,7 @@ public class Yuzhi_change extends Fragment implements View.OnClickListener {
                             res = R.drawable.icon_4;
                             break;
                     }
-                    showNofitication(res,position, "【" + list.get(position).getName() + "】告警", "当前值 " + list.get(position).getIndex() + "/" + list.get(position).getThreshold() + "(阈值)");
+                    showNofitication(res, position, "【" + list.get(position).getName() + "】告警", "当前值 " + list.get(position).getIndex() + "/" + list.get(position).getThreshold() + "(阈值)");
                 } else {
                     viewHolder.item_back.setBackgroundColor(Color.GREEN);
                 }
@@ -250,7 +272,7 @@ public class Yuzhi_change extends Fragment implements View.OnClickListener {
             return convertView;
         }
 
-        public void showNofitication(int res,int id, String title, String content) {
+        public void showNofitication(int res, int id, String title, String content) {
             NotificationManager manager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context);

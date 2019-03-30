@@ -4,6 +4,7 @@ import android.graphics.Color;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
+import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
@@ -12,12 +13,15 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by 昭阳 on 2019/3/30.
@@ -29,6 +33,7 @@ public class ChartManage {
     private XAxis xAxis;
     private YAxis left, right;
 
+    private LineChart lineChart;
 
     public ChartManage(PieChart pieChart) {
         this.pieChart = pieChart;
@@ -63,6 +68,18 @@ public class ChartManage {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
 
+    }
+
+    public ChartManage(LineChart lineChart) {
+        this.lineChart = lineChart;
+        xAxis = lineChart.getXAxis();
+        left = lineChart.getAxisLeft();
+        right = lineChart.getAxisRight();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        right.setEnabled(false);
+        xAxis.setDrawGridLines(false);
+        left.setDrawAxisLine(false);
+        xAxis.setLabelsToSkip(0);
     }
 
     public void showPiechart(ArrayList<String> x, ArrayList<Float> y) {
@@ -127,6 +144,22 @@ public class ChartManage {
         barDataSet.setBarSpacePercent(50);
         barDataSet.setValueFormatter(new PercentFormatter(new DecimalFormat("###,###,##0.0")));
         barChart.invalidate();
+    }
+
+
+    public void showLineChart(List<String> x, List<Integer> y) {
+        ArrayList<Entry> entries = new ArrayList<>();
+        for (int i = 0; i < y.size(); i++) {
+            entries.add(new Entry(y.get(i), i));
+        }
+        LineDataSet lineDataSet = new LineDataSet(entries, "");
+        LineData lineData = new LineData(x, lineDataSet);
+        lineDataSet.setCircleColor(Color.BLACK);
+        lineDataSet.setCircleColorHole(Color.BLACK);
+        lineChart.getLegend().setEnabled(false);
+        lineDataSet.setColor(Color.BLACK);
+        lineChart.setData(lineData);
+        lineChart.invalidate();
     }
 
 }

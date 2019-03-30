@@ -25,6 +25,23 @@ public class ThresholdBean {
     private int LightIntensity;
     private int humidity;
     private int temperature;
+    private int road;
+    private String time;
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public int getRoad() {
+        return road;
+    }
+
+    public void setRoad(int road) {
+        this.road = road;
+    }
 
     public String getERRMSG() {
         return ERRMSG;

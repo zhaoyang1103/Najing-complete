@@ -37,13 +37,17 @@ public class CarData {
     private static List<AllPersonBean.ROWSDETAILBean> allperson_list = new ArrayList<>();
     private static List<AllTypeBean.ROWSDETAILBean> alltype_list = new ArrayList<>();
     private static Map map = new HashMap();
-    private int flag = 0;
+    private static int flag = 0;
     private Context context;
     private final RequestQueue requestQueue;
     private String api_1 = "";
     private String api_2 = "";
     private String api_3 = "";
     private String api_4 = "";
+
+    public static int getFlag() {
+        return flag;
+    }
 
     public static List<AllCarBean.ROWSDETAILBean> getAllcar_list() {
         return allcar_list;
@@ -247,6 +251,28 @@ public class CarData {
     }
 
     private void getTu3() {
+        ArrayList<String> x = new ArrayList<>();
+        ArrayList<Float> y = new ArrayList<>();
+        float[] floats = new float[2];
+        for (int i = 0; i < allcar_list.size(); i++) {
+            if (allcar_list.get(i).getCount() >5) {
+                floats[2]++;
+            } else if (allcar_list.get(i).getCount() > 2) {
+                floats[1]++;
+            }
+            else if (allcar_list.get(i).getCount() > 0) {
+                floats[0]++;
+            }
+        }
+
+        x.add("1-2条违章");
+        x.add("3-5条违章");
+        x.add("5条违章以上");
+        y.add(floats[0]);
+        y.add(floats[1]);
+        y.add(floats[2]);
+        map.put("x3", x);
+        map.put("y3", y);
     }
 
     private void getTu4() {

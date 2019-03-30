@@ -5,6 +5,8 @@ package com.example.nanjing.zy_java.fragment;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -70,6 +72,10 @@ public class Design extends Fragment implements View.OnClickListener {
         }
         adapter = new Adapter();
         gv_list.setAdapter(adapter);
+        AnimationDrawable animationDrawable= (AnimationDrawable) left.getDrawable();
+        animationDrawable.start();
+        AnimationDrawable animationDrawable1= (AnimationDrawable) right.getDrawable();
+        animationDrawable1.start();
     }
 
     @Override

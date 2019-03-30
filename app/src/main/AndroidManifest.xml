@@ -15,7 +15,15 @@
         <!--闪图界面-->
         <activity
             android:name=".GuideActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="landscape">
+
+        </activity>
+
+        <!--两个注册界面-->
+        <activity
+            android:name=".login.LoginActivity"
+            android:screenOrientation="landscape"
+            android:label="@string/app_title" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,11 +31,6 @@
             </intent-filter>
         </activity>
 
-        <!--两个注册界面-->
-        <activity
-            android:name=".login.LoginActivity"
-            android:screenOrientation="landscape"
-            android:label="@string/app_title" />
         <activity
             android:name=".login.RegActivity"
             android:screenOrientation="landscape"

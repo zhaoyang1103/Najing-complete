@@ -34,7 +34,7 @@ public class Viewmain extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.viewmain, container, false);
-        if (CarData.getFlag() != 4) {
+        if (CarData.getFlag() < 4) {
             getFragmentManager().beginTransaction().replace(R.id.maincontent, new FragementHome()).commit();
             Toast.makeText(getContext(), "数据还没加载完成", Toast.LENGTH_SHORT).show();
         }

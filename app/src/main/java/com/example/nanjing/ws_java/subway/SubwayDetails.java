@@ -66,8 +66,22 @@ public class SubwayDetails extends Fragment {
     private void setGestLis() {
         detector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener(){
             @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                if (matrix.isIdentity()){
+                    matrix.preScale(1.5f,1.5f,e.getX(),e.getY());
+                    details_img.setImageMatrix(matrix);
+                    details_img.invalidate();
+                } else {
+                    matrix.reset();
+                    details_img.setImageMatrix(matrix);
+                    details_img.invalidate();
+                }
+                return super.onDoubleTap(e);
+            }
+
+            @Override
             public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-                matrix.preTranslate(-distanceX,-distanceY);
+                matrix.preTranslate(-distanceX/4f,-distanceY/4f);
                 details_img.setImageMatrix(matrix);
                 details_img.invalidate();
                 return super.onScroll(e1, e2, distanceX, distanceY);

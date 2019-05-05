@@ -5,12 +5,21 @@ package com.example.nanjing.ws_java.subway;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.graphics.PointF;
+import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -36,6 +45,11 @@ public class SubwayDetails extends Fragment {
     private static SubwayDetails fragment;
     private Context context;
 
+    private GestureDetector detector;
+    private ScaleGestureDetector scaleGestureDetector;
+    private Matrix matrix;
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,12 +59,42 @@ public class SubwayDetails extends Fragment {
         getActivity().findViewById(R.id.pain).setVisibility(View.GONE);
         tv_title.setText(fragment.getArguments().getString("title"));
         setMapimg();
+        setGestLis();
         return view;
     }
 
+    private void setGestLis() {
+        detector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener(){
+            @Override
+            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+                matrix.preTranslate(-distanceX,-distanceY);
+                details_img.setImageMatrix(matrix);
+                details_img.invalidate();
+                return super.onScroll(e1, e2, distanceX, distanceY);
+            }
+        });
 
-    public void setMapimg(){
-        String URL = "http://"+Util.loadSetting(context).getUrl() +":"+Util.loadSetting(context).getPort()+"/api/image/"+fragment.getArguments().getString("map");
+        scaleGestureDetector = new ScaleGestureDetector(context, new ScaleGestureDetector.SimpleOnScaleGestureListener() {
+            @Override
+            public boolean onScale(ScaleGestureDetector detector) {
+                float scaleFactor = detector.getScaleFactor();
+                float focusX = detector.getFocusX();
+                float focusY = detector.getFocusY();
+                if (scaleFactor > 1) {
+                    scaleFactor = 1.05f;
+                } else {
+                    scaleFactor = 0.95f;
+                }
+                matrix.preScale(scaleFactor, scaleFactor, focusX, focusY);
+                details_img.setImageMatrix(matrix);
+                details_img.invalidate();
+                return super.onScale(detector);
+            }
+        });
+    }
+
+    public void setMapimg() {
+        String URL = "http://" + Util.loadSetting(context).getUrl() + ":" + Util.loadSetting(context).getPort() + "/api/image/" + fragment.getArguments().getString("map");
         Log.i("SubwayAdapter", "map" + ":" + URL);
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
@@ -58,6 +102,7 @@ public class SubwayDetails extends Fragment {
             @Override
             public void onResponse(Bitmap bitmap) {
                 details_img.setImageBitmap(bitmap);
+                matrix = details_img.getImageMatrix();
             }
         }, 0, 0, Bitmap.Config.ARGB_8888, new Response.ErrorListener() {
             @Override
@@ -83,6 +128,16 @@ public class SubwayDetails extends Fragment {
             @Override
             public void onClick(View v) {
                 getFragmentManager().popBackStack();
+            }
+        });
+
+        details_img.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                details_img.setScaleType(ImageView.ScaleType.MATRIX);
+                detector.onTouchEvent(event);
+                scaleGestureDetector.onTouchEvent(event);
+                return true;
             }
         });
     }

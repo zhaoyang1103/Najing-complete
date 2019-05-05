@@ -53,6 +53,20 @@ public class AllPeccBean {
         private String datetime;
         private String paddr;
         private String pcode;
+        private int count = 0;
+
+        public ROWSDETAILBean(String carnumber, int count) {
+            this.carnumber = carnumber;
+            this.count = count;
+        }
+
+        public int getCount() {
+            return count;
+        }
+
+        public void setCount(int count) {
+            this.count = count;
+        }
 
         public String getCarnumber() {
             return carnumber;

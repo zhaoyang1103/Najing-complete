@@ -41,6 +41,7 @@ public class ChartManage {
         pieChart.getLegend().setPosition(Legend.LegendPosition.BELOW_CHART_CENTER);
         pieChart.setUsePercentValues(true);
         pieChart.setDrawHoleEnabled(false);
+        pieChart.animateXY(1000,1000);
 
     }
 
@@ -54,6 +55,8 @@ public class ChartManage {
         right.setEnabled(false);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
+        barChart.animateXY(1000,1000);
+
 
     }
 
@@ -67,6 +70,8 @@ public class ChartManage {
         horizontalBarChart.getLegend().setEnabled(false);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
+        horizontalBarChart.animateXY(1000,1000);
+
 
     }
 

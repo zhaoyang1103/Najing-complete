@@ -3,12 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <LinearLayout
         android:id="@+id/pain"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:background="#56abe4"
         android:orientation="horizontal">
+
         <ImageView
             android:id="@+id/imageView_Back"
             android:layout_width="64dp"
@@ -26,8 +28,13 @@
             android:textColor="#ffffff"
             android:textSize="28dp" />
     </LinearLayout>
-    <ImageView
-        android:id="@+id/details_img"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+
+
+        <ImageView
+            android:id="@+id/details_img"
+            android:scaleType="center"
+            android:clickable="true"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
 </LinearLayout>

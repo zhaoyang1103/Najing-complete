@@ -1,14 +1,24 @@
 package com.example.nanjing.st_java.bean;
 
 public class GRZXBean {
+    private int id;
     private int icon;
     private String carnumber;
     private String value;
 
-    public GRZXBean(int icon, String carnumber, String value) {
+    public GRZXBean(int id,int icon, String carnumber, String value) {
+        this.id = id;
         this.icon = icon;
         this.carnumber = carnumber;
         this.value = value;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getIcon() {

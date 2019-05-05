@@ -234,10 +234,7 @@ public class CarData implements CarBean_abs {
 
     @Override
     public void dealData() {
-        i("CarData", "" + allcarBean_list.size());
-        i("CarData", "" + allpeeeancyBean_list.size());
-        i("CarData", "" + allpersonBean_list.size());
-        i("CarData", "" + alltypeBean_list.size());
+
         for (int i = 0; i < allcarBean_list.size(); i++) {
             for (int j = 0; j < allpeeeancyBean_list.size(); j++) {
                 if (allcarBean_list.get(i).getCarnumber().equals(allpeeeancyBean_list.get(j).getCarnumber())) {
@@ -301,13 +298,7 @@ public class CarData implements CarBean_abs {
         float[] floats = new float[2];
         floats[0] = peccmap.size();
         floats[1] = allcarBean_list.size() - peccmap.size();
-//        for (int i = 0; i < allcarBean_list.size(); i++) {
-//            if (allcarBean_list.get(i).getCount() > 0) {
-//                floats[0]++;
-//            } else {
-//                floats[1]++;
-//            }
-//        }
+
         x.add("有违章");
         x.add("无违章");
         y.add(floats[0]);
@@ -412,38 +403,6 @@ public class CarData implements CarBean_abs {
             }
         }
 
-
-//
-//        for (int i = 0; i < allpersonBean_list.size(); i++) {
-//            int year = Integer.parseInt(allpersonBean_list.get(i).getPcardid().substring(6, 10));
-//            i("图四", "" + year);
-//            if (allpersonBean_list.get(i).getCount() == 0) {
-//                if (year >= 1990) {
-//                    y.get(0)[0]++;
-//                } else if (year >= 1980) {
-//                    y.get(1)[0]++;
-//                } else if (year >= 1970) {
-//                    y.get(2)[0]++;
-//                } else if (year >= 1960) {
-//                    y.get(3)[0]++;
-//                } else if (year >= 1950) {
-//                    y.get(4)[0]++;
-//                }
-//            } else {
-//                if (year >= 1990) {
-//                    y.get(0)[1]++;
-//                } else if (year >= 1980) {
-//                    y.get(1)[1]++;
-//                } else if (year >= 1970) {
-//                    y.get(2)[1]++;
-//                } else if (year >= 1960) {
-//                    y.get(3)[1]++;
-//                } else if (year >= 1950) {
-//                    y.get(4)[1]++;
-//                }
-//            }
-//        }
-
         float[] floats1 = new float[5];
         for (int i = 0; i < y.size(); i++) {
             floats1[i] = y.get(i)[0] + y.get(i)[1];
@@ -460,7 +419,7 @@ public class CarData implements CarBean_abs {
         x.add("70后");
         x.add("60后");
         x.add("50后");
-        i("图四", "" + Arrays.asList(y));
+
         map.put("x4", x);
         map.put("y4", y);
 
@@ -497,23 +456,6 @@ public class CarData implements CarBean_abs {
 
 
         }
-
-//        for (int i = 0; i < allpersonBean_list.size(); i++) {
-//            String year = allpersonBean_list.get(i).getPsex();
-//            if (allpersonBean_list.get(i).getCount() == 0) {
-//                if (year.equals("女")) {
-//                    y.get(0)[0]++;
-//                } else if (year.equals("男")) {
-//                    y.get(1)[0]++;
-//                }
-//            } else {
-//                if (year.equals("女")) {
-//                    y.get(0)[1]++;
-//                } else if (year.equals("男")) {
-//                    y.get(1)[1]++;
-//                }
-//            }
-//        }
         float[] floats1 = new float[5];
         for (int i = 0; i < y.size(); i++) {
             floats1[i] = y.get(i)[0] + y.get(i)[1];

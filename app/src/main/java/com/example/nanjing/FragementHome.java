@@ -34,10 +34,8 @@ import java.util.List;
 public class FragementHome extends Fragment {
     private GridView home_grid;
     private TextView tv_title;
-
     private Context context;
     private HomeAdapter home_adapter;
-
     private List<HomeBean> home_list;
 
     @Nullable
